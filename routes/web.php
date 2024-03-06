@@ -14,8 +14,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "<h1>ROUTA PRINCIPAL<h1>";
+    return "<h1>ROUTA PRINCIPAL UGA BUNGA LUGALGUAUGAUSBODABSJDHBAPSIDHBAPISHBDUPAHSVDOUASVDJAHVSDHIBA SVDOUGAVSHDOVASHIGDVASDGVAIHSGDVCAHIGSVDYU<h1>";
 });
 
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/nivel', 'App\Http\Controllers\NivelController');
+Route::resource('/curso', 'App\Http\Controllers\CursoController');

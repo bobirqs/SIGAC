@@ -20,7 +20,7 @@ class NivelController extends Controller
      */
     public function index()
     {
-        $data = $this->repository->selectAll();
+        $data = $this->repository->selectAllWith(['curso']);
         return $data;
     }
 
