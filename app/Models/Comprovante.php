@@ -10,5 +10,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Comprovante extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes;    
+
+    public function aluno()
+    {
+        return $this->belongsTo('\App\Models\Aluno');
+
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('\App\Models\User');
+
+    }
+
+    public function comprocat()
+    {
+        return $this->hasMany('\App\Models\ComproCat');
+
+    }
+
 }

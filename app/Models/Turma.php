@@ -12,4 +12,15 @@ class Turma extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public function curso()
+    {
+        return $this->belongsTo('\App\Models\Curso');
+    }
+
+    public function aluno()
+    {
+        return $this->hasMany('\App\Models\Aluno');
+
+    }
+
 }

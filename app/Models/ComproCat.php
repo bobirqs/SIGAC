@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Categoria extends Model
+class Comprovante extends Model
 {
     use HasFactory;
     use SoftDeletes;
-
-    public function curso()
+    
+    public function categoria()
     {
-        return $this->belongsTo('\App\Models\Curso');
+        return $this->belongsTo('\App\Models\Categoria');
 
     }
 
     public function comprovante()
     {
-        return $this->hasMany('\App\Models\Comprovante');
+        return $this->belongsTo('\App\Models\Comprovante');
 
     }
 

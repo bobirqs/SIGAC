@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "<h1>ROUTA PRINCIPAL UGA BUNGA LUGALGUAUGAUSBODABSJDHBAPSIDHBAPISHBDUPAHSVDOUASVDJAHVSDHIBA SVDOUGAVSHDOVASHIGDVASDGVAIHSGDVCAHIGSVDYU<h1>";
+    return "<h1>ROUTA PRINCIPAL<h1>";
 });
 
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/nivel', 'App\Http\Controllers\NivelController');
 Route::resource('/curso', 'App\Http\Controllers\CursoController');
+Route::resource('/declaracao', 'App\Http\Controllers\DeclaracaoController');
+Route::resource('/comprovante', 'App\Http\Controllers\ComprovanteController');
+Route::resource('/user', 'App\Http\Controllers\UserController');
+Route::resource('/aluno', 'App\Http\Controllers\AlunoController');
+Route::resource('/categoria', 'App\Http\Controllers\CategoriaController');
+Route::resource('/turma', 'App\Http\Controllers\TurmaController');

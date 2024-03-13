@@ -46,4 +46,32 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo('\App\Models\Role');
+
+    }
+
+    public function curso()
+    {
+        return $this->belongsTo('\App\Models\Curso');
+
+    }
+
+    public function documento()
+    {
+        return $this->hasMany('\App\Models\Documento');
+
+    }
+
+    public function aluno()
+    {
+        return $this->hasMany('\App\Models\Aluno');
+
+    }
+
+
+
+
 }

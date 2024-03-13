@@ -23,4 +23,25 @@ class Curso extends Model
         return $this->belongsTo('\App\Models\Nivel');
 
     }
+
+    public function turma()
+    {
+        return $this->hasMany('\App\Models\Turma');
+    }
+
+    public function aluno()
+    {
+        return $this->hasMany('\App\Models\Aluno');
+    }
+
+    public function user()
+    {
+        return $this->hasMany('\App\Models\User');
+    }
+
+    public function categoria()
+    {
+        return $this->hasMany('\App\Models\Categoria');
+
+    }
 }

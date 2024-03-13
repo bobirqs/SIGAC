@@ -18,6 +18,7 @@ class CursoController extends Controller
 
     public function __construct()
     {
+        
         $this->repository = new CursoRepository();
     }
 
@@ -58,7 +59,7 @@ class CursoController extends Controller
             return "parabuains";
 
         }
-        return "BURRO ESSE EIXO OU NIVEL N EXISTE";
+        return "lol";
     }
 
     /**
