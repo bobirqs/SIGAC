@@ -2,93 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\EixoRepository;
 use Illuminate\Http\Request;
+use App\Repositories\EixoRepository;
 use App\Models\Eixo;
+use App\Repositories\CursoRepository;
 
-class EixoController extends Controller
-{
+class EixoController extends Controller {
+    
     protected $repository;
-
-    public function __construct() {
-        $this->repository = new EixoRepository();
-        
+   
+    public function __construct(){
+       $this->repository = new EixoRepository();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index() {
         $data = $this->repository->selectAllWith(['curso']);
+        return view('eixo.index')->with('data', $data);
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function create() {
+        return view('eixo.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $eixo = new Eixo();
-        $eixo->nome = mb_strtoupper($request->nome, 'UTF8');
-        $this->repository->save($eixo);
-
-        return $request->nome;
+    public function store(Request $request) {
+        $obj = new Eixo();
+        $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+        $this->repository->save($obj);
+        return redirect()->route('eixo.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
+    public function show(string $id) {
+        $data = $this->repository->findByIdWith(['curso'], $id);
+        if(isset($data)) 
+            return view('eixo.show', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
+    }   
+
+    public function edit(string $id) {
         $data = $this->repository->findById($id);
-        return $data;
+        if(isset($data))
+            return view('eixo.edit', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $eixo = $this->repository->findById($id);
-        if(isset($eixo))
-        {
-            $eixo->nome = mb_strtoupper($request->nome, 'UTF8');
-            $this->repository->save($eixo);
-            return "Muito top";
+    public function update(Request $request, string $id) {
+        $obj = $this->repository->findById($id);
+        if(isset($obj)) {
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $this->repository->save($obj);
+            return redirect()->route('eixo.index');
         }
 
-        return "erro muito errado";
-        
-        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        if($this->repository->delete($id))
-        {
-            return "Acerto gamer";
-
+    public function destroy(string $id) {
+        if($this->repository->delete($id))  {
+            return redirect()->route('eixo.index');
         }
-        return "Erro noob";
+        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return "<h1>ROUTA PRINCIPAL<h1>";
-});
+    return view('index');
+})->name('site');
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
 
 Route::resource('/eixo', 'App\Http\Controllers\EixoController');
 Route::resource('/nivel', 'App\Http\Controllers\NivelController');

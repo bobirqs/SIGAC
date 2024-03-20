@@ -2,93 +2,89 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\NivelRepository;
 use Illuminate\Http\Request;
+use App\Repositories\NivelRepository;
 use App\Models\Nivel;
 
-class NivelController extends Controller
-{
+class NivelController extends Controller {
+
     protected $repository;
-
-    public function __construct() {
-        $this->repository = new NivelRepository();
-        
+   
+    public function __construct(){
+       $this->repository = new NivelRepository();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index() {
         $data = $this->repository->selectAllWith(['curso']);
+        return view('nivel.index', compact('data'));
+        // return $data;
+    }
+
+    public function create() {
+        return view('nivel.create');
+    }
+
+    public function store(Request $request) {
+        $obj = new Nivel();
+        $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+        $this->repository->save($obj);
+        return redirect()->route('nivel.index');
+    }
+
+    public function show(string $id) {
+        $data = $this->repository->findByIdWith(['curso'], $id);
+        if(isset($data)) 
+            return view('nivel.show', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "nivel.index");
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    public function edit(string $id) {
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $nivel = new Nivel();
-        $nivel->nome = mb_strtoupper($request->nome, 'UTF8');
-        $this->repository->save($nivel);
-
-        return $request->nome;
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
         $data = $this->repository->findById($id);
-        return $data;
+        if(isset($data))
+            return view('nivel.edit', compact('data'));
+
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $nivel = $this->repository->findById($id);
-        if(isset($nivel))
-        {
-            $nivel->nome = mb_strtoupper($request->nome, 'UTF8');
-            $this->repository->save($nivel);
-            return "Muito top";
+    public function update(Request $request, string $id) {
+        $obj = $this->repository->findById($id);
+        if(isset($obj)) {
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $this->repository->save($obj);
+            return redirect()->route('nivel.index');
         }
 
-        return "erro muito errado";
-        
-        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        if($this->repository->delete($id))
-        {
-            return "Acerto gamer";
-
+    public function destroy(string $id) {
+        if($this->repository->delete($id))  {
+            return redirect()->route('nivel.index');
         }
-        return "Erro noob";
+        
+        return view('message')
+            ->with('template', "main")
+            ->with('type', "danger")
+            ->with('titulo', "OPERAÇÃO INVÁLIDA")
+            ->with('message', "Não foi possível efetuar o procedimento!")
+            ->with('link', "eixo.index");
     }
 }
